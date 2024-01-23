@@ -1,3 +1,4 @@
+import os
 import json
 
 from package_comparison import compare_packages
@@ -5,7 +6,12 @@ from cli import parse_args
 
 
 def save_data(data):
-    path = 'tests/fixtures/lists_binary_packages.json'
+    directory = 'tests/fixtures'
+    path = os.path.join(directory, 'lists_binary_packages.json')
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     with open(path, 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, ensure_ascii=False, indent=4)
 

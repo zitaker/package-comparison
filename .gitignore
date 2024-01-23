@@ -7,5 +7,5 @@ coverage.xml
 .pytest_cache/
 .env
 env
-*.json
 .idea
+tests
