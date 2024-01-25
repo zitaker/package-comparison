@@ -3,8 +3,8 @@ import json
 
 from package_comparison import compare_packages
 from cli import parse_args
-
 from split_by_arch import split_by_arch
+from save_result_packages import save_result_packages
 
 
 def save_data(data, name_file):
@@ -18,6 +18,16 @@ def save_data(data, name_file):
         json.dump(data, json_file, ensure_ascii=False, indent=4)
 
 
+def split_by_directory(path_file):
+    with open(path_file, 'r') as file:
+        reading_data = json.load(file)
+
+    arch_values = set()
+    for package in reading_data["packages"]:
+        arch_value = package["arch"]
+        arch_values.add(arch_value)
+
+
 def main():
     # print('wait - the download is in progress.')
     # packages_p10, packages_sisyphus = parse_args()
@@ -29,13 +39,21 @@ def main():
 
     path_p10 = 'tests/fixtures/p101.json'
     path_sisyphus = 'tests/fixtures/sisyphus1.json'
-    result = compare_packages(path_p10, path_sisyphus)
+
+    split_by_directory(path_p10)
+    split_by_directory(path_sisyphus)
+
     print('Directories were created by arch_value.')
     split_by_arch(path_p10)
     split_by_arch(path_sisyphus)
     print('Packages by arch_value were extracted.')
 
+    print('----------')
+    save_result_packages()
+    print('----------')
 
+    # result = compare_packages(path_p10, path_sisyphus)
+    #
     # save_data(result[0], 'packages_p10_not_in_sisyphus')
     # print('Done - all packages that are in p10 but not in sisyphus.')
     # save_data(result[1], 'packages_sisyphus_not_in_p10')
