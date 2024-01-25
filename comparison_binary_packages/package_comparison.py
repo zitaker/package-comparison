@@ -1,8 +1,18 @@
 import json
 
 
-def extracting_package(file):
-    with open(file, 'r') as file:
+def split_by_directory(path_file):
+    with open(path_file, 'r') as file:
+        reading_data = json.load(file)
+
+    arch_values = set()
+    for package in reading_data["packages"]:
+        arch_value = package["arch"]
+        arch_values.add(arch_value)
+
+
+def extracting_package(path_file):
+    with open(path_file, 'r') as file:
         reading_data = json.load(file)
 
     package = reading_data.get('packages', [])
@@ -35,14 +45,17 @@ def greater_version_release(new_packages, old_packages):
     return result
 
 
-def compare_packages(p10_package, sisyphus_package):
-    packages_p10 = extracting_package(p10_package)
-    packages_sisyphus = extracting_package(sisyphus_package)
+def compare_packages(path_p10, path_sisyphus):
+    split_by_directory(path_p10)
+    split_by_directory(path_sisyphus)
 
-    packages_p10_not_in_sisyphus = packages(packages_p10, packages_sisyphus)
-    packages_sisyphus_not_in_p10 = packages(packages_sisyphus, packages_p10)
-    greater_version_release_sisyphus = greater_version_release(packages_sisyphus, packages_p10)
-
-    return (packages_p10_not_in_sisyphus,
-            packages_sisyphus_not_in_p10,
-            greater_version_release_sisyphus)
+    # packages_p10 = extracting_package(path_p10)
+    # packages_sisyphus = extracting_package(path_sisyphus)
+    #
+    # packages_p10_not_in_sisyphus = packages(packages_p10, packages_sisyphus)
+    # packages_sisyphus_not_in_p10 = packages(packages_sisyphus, packages_p10)
+    # greater_version_release_sisyphus = greater_version_release(packages_sisyphus, packages_p10)
+    #
+    # return (packages_p10_not_in_sisyphus,
+    #         packages_sisyphus_not_in_p10,
+    #         greater_version_release_sisyphus)
