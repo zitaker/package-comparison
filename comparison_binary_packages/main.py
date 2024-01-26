@@ -1,5 +1,6 @@
 import os
 import json
+import time
 
 
 from package_comparison import compare_packages
@@ -49,16 +50,21 @@ def paths_to_files(file_paths):
 
 
 def main():
-    # print('wait - the download is in progress.')
-    # packages_p10, packages_sisyphus = parse_args()
-    # save_data(packages_p10, 'p10')
-    # print('The p10 packages are assembled.')
-    # save_data(packages_sisyphus, 'sisyphus')
-    # print('The sisyphus packages are assembled.')
-    # print('-----------------')
+    time_start_1 = time.time()
+    print('Wait - the download is in progress.')
+    packages_p10, packages_sisyphus = parse_args()
+    save_data(packages_p10, 'p10')
+    print('The p10 packages are assembled.')
+    save_data(packages_sisyphus, 'sisyphus')
+    print('The sisyphus packages are assembled.')
 
-    path_p10 = 'tests/fixtures/p101.json'
-    path_sisyphus = 'tests/fixtures/sisyphus1.json'
+    time_end_1 = divmod(time.time() - time_start_1, 60)
+    print(f"Time execution - receiving packages: "
+          f"{int(time_end_1[0])}:{time_end_1[1]:.3f}")
+
+    time_start_2 = time.time()
+    path_p10 = 'tests/fixtures/p10.json'
+    path_sisyphus = 'tests/fixtures/sisyphus.json'
 
     split_by_directory(path_p10)
     split_by_directory(path_sisyphus)
@@ -68,15 +74,24 @@ def main():
     split_by_arch(path_sisyphus)
     print('Packages by arch_value were extracted.')
 
+    time_end_2 = divmod(time.time() - time_start_2, 60)
+    print(f"Time execution - distribution by arch_value: "
+          f"{int(time_end_2[0])}:{time_end_2[1]:.3f}")
+
     list_path_files = save_result_packages()
 
     for path in list_path_files:
+        time_start_3 = time.time()
         result_pair = paths_to_files(path)
         result = compare_packages(result_pair[0], result_pair[1])
 
         save_result(result_pair[0], result[0], 'packages_p10_not_in_sisyphus')
         save_result(result_pair[0], result[1], 'packages_sisyphus_not_in_p10')
         save_result(result_pair[0], result[2], 'greater_version_release_sisyphus')
+
+        time_end_3 = divmod(time.time() - time_start_3, 60)
+        print(f"Time execution - to one arch_value: "
+              f"{int(time_end_3[0])}:{time_end_3[1]:.3f}")
     print('Done - see the result.')
 
 

@@ -22,6 +22,7 @@ def get_file_paths(directory):
             file_paths.append(os.path.join(root, file))
     return file_paths
 
+
 def get_paths_of_list(directory_list):
     pairs = []
     for path in directory_list:
@@ -32,6 +33,7 @@ def get_paths_of_list(directory_list):
             elif len(files) >= 2:
                 pairs.append((files[0], files[1]))
     return pairs
+
 
 def split_into_directory(list_paths):
     result_pairs = []
