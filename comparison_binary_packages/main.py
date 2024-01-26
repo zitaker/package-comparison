@@ -22,7 +22,10 @@ def save_data(data, name_file):
 def save_result(directory, data, name_file):
     find_index = directory.rfind('/', 0, -3)
     if find_index != -1:
-        path_for_save = directory[:find_index]
+        path_for_save = f"{directory[:find_index]}{'/result_conditions/'}"
+
+    if not os.path.exists(path_for_save):
+        os.makedirs(path_for_save)
 
     path = os.path.join(path_for_save, f"{name_file}.json")
 
@@ -46,16 +49,16 @@ def paths_to_files(file_paths):
 
 
 def main():
-    print('wait - the download is in progress.')
-    packages_p10, packages_sisyphus = parse_args()
-    save_data(packages_p10, 'p10')
-    print('The p10 packages are assembled.')
-    save_data(packages_sisyphus, 'sisyphus')
-    print('The sisyphus packages are assembled.')
-    print('-----------------')
+    # print('wait - the download is in progress.')
+    # packages_p10, packages_sisyphus = parse_args()
+    # save_data(packages_p10, 'p10')
+    # print('The p10 packages are assembled.')
+    # save_data(packages_sisyphus, 'sisyphus')
+    # print('The sisyphus packages are assembled.')
+    # print('-----------------')
 
-    path_p10 = 'tests/fixtures/p10.json'
-    path_sisyphus = 'tests/fixtures/sisyphus.json'
+    path_p10 = 'tests/fixtures/p101.json'
+    path_sisyphus = 'tests/fixtures/sisyphus1.json'
 
     split_by_directory(path_p10)
     split_by_directory(path_sisyphus)
@@ -75,16 +78,6 @@ def main():
         save_result(result_pair[0], result[1], 'packages_sisyphus_not_in_p10')
         save_result(result_pair[0], result[2], 'greater_version_release_sisyphus')
     print('Done - see the result.')
-
-
-    # result = compare_packages(path_p10, path_sisyphus)
-    #
-    # save_data(result[0], 'packages_p10_not_in_sisyphus')
-    # print('Done - all packages that are in p10 but not in sisyphus.')
-    # save_data(result[1], 'packages_sisyphus_not_in_p10')
-    # print('Done - all packages that are in sisyphus but are not in p10.')
-    # save_data(result[2], 'greater_version_release_sisyphus')
-    # print('Done - all packages with more version-release in sisyphus than in p10.')
 
 
 if __name__ == '__main__':
