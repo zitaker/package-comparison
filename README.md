@@ -21,7 +21,8 @@ here is the tree structure of the created directories !!!!
 1. python;  
 2. pip;  
 3. requests;  
-4. argparse.  
+4. argparse;
+5. make (not a mandatory requirement).  
 
 #### Minimum requirements:  
 
@@ -32,5 +33,5 @@ here is the tree structure of the created directories !!!!
 
 1. clone the project;
 2. go to the root directory of the project;
-3. perform the installation with the command ```pip3 install -r requirements.txt```;
-4. run the application with the command ```python3 comparison_binary_packages/main.py sisyphus p10```.
+3. perform the installation with the command ```pip3 install -r requirements.txt``` or ```make install```;
+4. run the application with the command ```python3 comparison_binary_packages/main.py sisyphus p10``` or ```make loading```.
