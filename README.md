@@ -12,9 +12,11 @@ I receive binary packages and distribute them according to arch_value and three 
 2) all packages that are in sisyphus but are not in p10;
 3) all packages with a higher version_release in sisyphus than in p10.
 
-#### See the result  
+#### Result  
 
 ![the result of the execution](https://github.com/zitaker/package-comparison/assets/92075508/3051b7e0-b2a7-4921-baa1-6ff7ff344444)  
+
+A structure is being created.  
 
 ```
 tests/
