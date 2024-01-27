@@ -96,4 +96,8 @@ def main():
 
 
 if __name__ == '__main__':
+    total_time_end = time.time()
     main()
+    total_time_end = divmod(time.time() - total_time_end, 60)
+    print(f"Time execution - total: "
+          f"{int(total_time_end[0])}:{total_time_end[1]:.3f}")
