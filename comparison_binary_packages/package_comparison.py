@@ -1,5 +1,7 @@
 import json
 
+from packaging import version
+
 
 def extracting_package(path_file):
     with open(path_file, 'r') as file:
@@ -24,8 +26,9 @@ def greater_version_release(new_packages, old_packages):
         matching_package_p10 = None
         for package_p10 in old_packages:
             if (
-                    package_p10['name'] == package_name_sisyphus and
-                    package_p10['version'] < package_sisyphus['version']
+                package_p10['name'] == package_name_sisyphus and
+                version.parse(package_p10['version']) <
+                version.parse(package_sisyphus['version'])
             ):
                 matching_package_p10 = package_p10
                 break
