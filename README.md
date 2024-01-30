@@ -81,7 +81,8 @@ tests/
 2. pip;  
 3. requests;  
 4. argparse;
-5. make (not a mandatory requirement).  
+5. rpm;
+6. make (not a mandatory requirement).  
 
 #### Minimum requirements:  
 
