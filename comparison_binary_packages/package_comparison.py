@@ -1,6 +1,5 @@
+import rpm
 import json
-
-from packaging import version
 
 
 def extracting_package(path_file):
@@ -21,20 +20,21 @@ def packages(in_package, no_in_package):
 
 def greater_version_release(new_packages, old_packages):
     result = []
-    for package_sisyphus in new_packages:
-        package_name_sisyphus = package_sisyphus['name']
-        matching_package_p10 = None
-        for package_p10 in old_packages:
-            if (
-                package_p10['name'] == package_name_sisyphus and
-                version.parse(package_p10['version']) <
-                version.parse(package_sisyphus['version'])
-            ):
-                matching_package_p10 = package_p10
-                break
 
-        if matching_package_p10 is not None:
-            result.append(package_sisyphus)
+    for new_package in new_packages:
+        name = new_package["name"]
+
+        for old_package in old_packages:
+            if old_package["name"] == name:
+                comparison = rpm.labelCompare(
+                    (str(new_package['epoch']),
+                     new_package['version'],
+                     new_package['release']),
+                    (str(old_package['epoch']),
+                     old_package['version'],
+                     old_package['release']))
+                if comparison > 0:
+                    result.append(new_package)
     return result
 
 
