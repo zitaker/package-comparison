@@ -29,10 +29,19 @@ def greater_version_release(new_packages, old_packages):
                 comparison = rpm.labelCompare(
                     (str(new_package['epoch']),
                      new_package['version'],
-                     new_package['release']),
+                     new_package['release'],),
                     (str(old_package['epoch']),
                      old_package['version'],
                      old_package['release']))
+
+                if comparison == 0:
+                    if new_package['disttag'] != old_package['disttag']:
+                        comparison = 1 if new_package['disttag'] > old_package['disttag'] else -1
+                    elif new_package['buildtime'] != old_package['buildtime']:
+                        comparison = 1 if new_package['buildtime'] > old_package['buildtime'] else -1
+                    elif new_package['source'] != old_package['source']:
+                        comparison = 1 if new_package['source'] > old_package['source'] else -1
+
                 if comparison > 0:
                     result.append(new_package)
     return result
