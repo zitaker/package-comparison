@@ -82,7 +82,7 @@ def main():
     for path in list_path_files:
         time_start_3 = time.time()
         result_pair = paths_to_files(path)
-        result = compare_packages(result_pair[1], result_pair[0])
+        result = compare_packages(result_pair[0], result_pair[1])
 
         save_result(result_pair[0], result[0], 'packages_p10_not_in_sisyphus')
         save_result(result_pair[0], result[1], 'packages_sisyphus_not_in_p10')

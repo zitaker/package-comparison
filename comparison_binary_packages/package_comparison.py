@@ -1,5 +1,6 @@
 import rpm
 import json
+import locale
 
 
 def extracting_package(path_file):
@@ -19,12 +20,11 @@ def packages(in_package, no_in_package):
 
 
 def additional_comparison(new_package, old_package, meaning):
-    if new_package[meaning] > old_package[meaning]:
+    result = locale.strcoll(new_package[meaning], old_package[meaning])
+    if result > 0:
         return 1
-    elif new_package[meaning] < old_package[meaning]:
+    elif result < 0:
         return -1
-    else:
-        return 0
 
 
 def greater_version_release(new_packages, old_packages):
@@ -55,7 +55,10 @@ def greater_version_release(new_packages, old_packages):
                 if new_package['disttag'] != old_package['disttag']:
                     comparison = additional_comparison(new_package, old_package, 'disttag')
                 elif new_package['buildtime'] != old_package['buildtime']:
-                    comparison = additional_comparison(new_package, old_package, 'buildtime')
+                    if new_package['buildtime'] < old_package['buildtime']:
+                        comparison = -1
+                    elif new_package['buildtime'] > old_package['buildtime']:
+                        comparison = 1
                 elif new_package['source'] != old_package['source']:
                     comparison = additional_comparison(new_package, old_package, 'source')
 
@@ -71,7 +74,7 @@ def compare_packages(path_p10, path_sisyphus):
 
     packages_p10_not_in_sisyphus = packages(packages_p10, packages_sisyphus)
     packages_sisyphus_not_in_p10 = packages(packages_sisyphus, packages_p10)
-    greater_version_release_sisyphus = greater_version_release(packages_p10, packages_sisyphus)
+    greater_version_release_sisyphus = greater_version_release(packages_sisyphus, packages_p10)
 
     return (packages_p10_not_in_sisyphus,
             packages_sisyphus_not_in_p10,
